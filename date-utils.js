@@ -4,13 +4,13 @@
 
 // date parse module.
 
-var baseUtils = baseUtils || {};
+var OEUtils = OEUtils || {};
 
-baseUtils.DateUtils = {
+OEUtils.DateUtils = {
   months: ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 };
 
-baseUtils.DateUtils.utcDateFormatter = (function () {
+OEUtils.DateUtils.utcDateFormatter = (function () {
 
   var locale = navigator.language;
   return Intl.DateTimeFormat(locale, {
@@ -18,7 +18,7 @@ baseUtils.DateUtils.utcDateFormatter = (function () {
   });
 })();
 
-baseUtils.DateUtils.parse = function (date, inputType) {
+OEUtils.DateUtils.parse = function (date, inputType) {
   if (typeof date === 'undefined' || date.length < 4) {
     return;
   }
@@ -31,7 +31,7 @@ baseUtils.DateUtils.parse = function (date, inputType) {
 
   //replacing all special characters with '-'; and if it contains month name then replace with standard integer value;
   date = date.toLowerCase();
-  baseUtils.DateUtils.months.forEach(function (d) {
+  OEUtils.DateUtils.months.forEach(function (d) {
     if (date.indexOf(d) > -1) {
       date = date.replace(d, months.indexOf(d) + 1);
     }
@@ -214,7 +214,7 @@ baseUtils.DateUtils.parse = function (date, inputType) {
   return resultDate;
 };
 
-baseUtils.DateUtils.format = function (date, format) {
+OEUtils.DateUtils.format = function (date, format) {
 
   if (format === '') {
     return date;

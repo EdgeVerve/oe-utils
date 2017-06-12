@@ -2,8 +2,8 @@
 ©2016-2017 EdgeVerve Systems Limited (a fully owned Infosys subsidiary), Bangalore, India. All Rights Reserved.
 */
 
-var baseUtils = baseUtils || {};
-baseUtils.getResourceUrl = function () {
+var OEUtils = OEUtils || {};
+OEUtils.getResourceUrl = function () {
   return 'api/UIResources';
 };
 
@@ -89,7 +89,7 @@ if (!String.prototype.endsWith) {
   };
 }
 
-baseUtils.geturl = function (url) {
+OEUtils.geturl = function (url) {
 
   if (url.startsWith('http') ||
     url.startsWith('file')) {
@@ -99,7 +99,7 @@ baseUtils.geturl = function (url) {
   function stripQueryStringAndHashFromPath(url) {
     return url.split('?')[0].split('#')[0];
   }
-  if (!baseUtils.baseurl) {
+  if (!OEUtils.baseurl) {
     var baseUrl;
     if (document.baseURI) {
       baseUrl = stripQueryStringAndHashFromPath(document.baseURI);
@@ -109,30 +109,30 @@ baseUtils.geturl = function (url) {
     if (baseUrl.endsWith('/')) {
       baseUrl = baseUrl.slice(0, -1);
     }
-    baseUtils.baseurl = baseUrl;
+    OEUtils.baseurl = baseUrl;
   }
 
-  if (!baseUtils.uibaseroute) {
-    baseUtils.uibaseroute = baseUtils.baseurl;
+  if (!OEUtils.uibaseroute) {
+    OEUtils.uibaseroute = OEUtils.baseurl;
   }
-  if (!baseUtils.apibaseroute) {
-    baseUtils.apibaseroute = baseUtils.baseurl;
+  if (!OEUtils.apibaseroute) {
+    OEUtils.apibaseroute = OEUtils.baseurl;
   }
 
   var ret = url;
   if (url.startsWith('api')) {
-    ret = baseUtils.apibaseroute + '/' + url;
+    ret = OEUtils.apibaseroute + '/' + url;
   } else if (url.startsWith('/api') || url.startsWith('/auth')) {
-    ret = baseUtils.apibaseroute + url;
+    ret = OEUtils.apibaseroute + url;
   } else if (url.startsWith('/')) {
-    ret = baseUtils.uibaseroute + url;
+    ret = OEUtils.uibaseroute + url;
   } else {
-    ret = baseUtils.uibaseroute + '/' + url;
+    ret = OEUtils.uibaseroute + '/' + url;
   }
   return ret;
 };
 
-baseUtils.extractErrorMessage = function (err) {
+OEUtils.extractErrorMessage = function (err) {
   var retErrorMsg;
   if (err && err.detail && err.detail.request && err.detail.request.response) {
     var errorObj = err.detail.request.response.error;
@@ -178,15 +178,15 @@ baseUtils.extractErrorMessage = function (err) {
   return retErrorMsg;
 };
 
-baseUtils.camelCaseToLabel = function (s) {
+OEUtils.camelCaseToLabel = function (s) {
   // Make the first character uppercase before split/join.
   return (s.charAt(0).toUpperCase() + s.slice(1)).split(/(?=[A-Z])/).join(' ');
 };
 
 if (undefined === document.createElement('style').scoped) {
-  baseUtils.scopeStyles = function (node) {
+  OEUtils.scopeStyles = function (node) {
     var scoper = function (css, prefix) {
-      var re = new RegExp('([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)', 'g');  // eslint-disable-line no-control-regex
+      var re = new RegExp('([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)', 'g'); // eslint-disable-line no-control-regex
       css = css.replace(re, function (g0, g1, g2) {
 
         if (g1.match(/^\s*(@media|@keyframes|to|from|@font-face)/)) {
@@ -210,38 +210,42 @@ if (undefined === document.createElement('style').scoped) {
 
       return css;
     };
-    var guid = node.id || baseUtils.generateGuid();
+    var guid = node.id || OEUtils.generateGuid();
     node.setAttribute('id', guid);
     [].forEach.call(node.querySelectorAll('style[scoped]'), function (style) {
       style.innerHTML = scoper(style.innerHTML, '#' + guid);
     });
   };
 } else {
-  baseUtils.scopeStyles = function () {};
+  OEUtils.scopeStyles = function () {};
 }
 
-baseUtils.generateGuid = function () {
+OEUtils.generateGuid = function () {
   var randoms = (window.crypto || window.msCrypto).getRandomValues(new Uint32Array(2)); // eslint-disable-line no-undef
   return randoms[0].toString(36).substring(2, 15) +
     randoms[1].toString(36).substring(2, 15);
 };
 
-baseUtils.UUID = (function() {
+OEUtils.UUID = (function () {
   var self = {};
-  var lut = []; for (var i=0; i<256; i++) { lut[i] = (i<16?'0':'')+(i).toString(16); }
-	function rand() {
-	  var num = (window.crypto.getRandomValues(new Uint8Array(1))[0])
-	  return num/(Math.pow(10, (""+num).length));
-	}
-  self.generate = function() {
-    var d0 = rand()*0xffffffff|0;
-    var d1 = rand()*0xffffffff|0;
-    var d2 = rand()*0xffffffff|0;
-    var d3 = rand()*0xffffffff|0;
-    return lut[d0&0xff]+lut[d0>>8&0xff]+lut[d0>>16&0xff]+lut[d0>>24&0xff]+'-'+
-      lut[d1&0xff]+lut[d1>>8&0xff]+'-'+lut[d1>>16&0x0f|0x40]+lut[d1>>24&0xff]+'-'+
-      lut[d2&0x3f|0x80]+lut[d2>>8&0xff]+'-'+lut[d2>>16&0xff]+lut[d2>>24&0xff]+
-      lut[d3&0xff]+lut[d3>>8&0xff]+lut[d3>>16&0xff]+lut[d3>>24&0xff];
+  var lut = [];
+  for (var i = 0; i < 256; i++) {
+    lut[i] = (i < 16 ? '0' : '') + (i).toString(16);
+  }
+
+  function rand() {
+    var num = (window.crypto.getRandomValues(new Uint8Array(1))[0]); // eslint-disable-line no-undef
+    return num / (Math.pow(10, ('' + num).length));
+  }
+  self.generate = function () {
+    var d0 = rand() * 0xffffffff | 0;
+    var d1 = rand() * 0xffffffff | 0;
+    var d2 = rand() * 0xffffffff | 0;
+    var d3 = rand() * 0xffffffff | 0;
+    return lut[d0 & 0xff] + lut[d0 >> 8 & 0xff] + lut[d0 >> 16 & 0xff] + lut[d0 >> 24 & 0xff] + '-' +
+      lut[d1 & 0xff] + lut[d1 >> 8 & 0xff] + '-' + lut[d1 >> 16 & 0x0f | 0x40] + lut[d1 >> 24 & 0xff] + '-' +
+      lut[d2 & 0x3f | 0x80] + lut[d2 >> 8 & 0xff] + '-' + lut[d2 >> 16 & 0xff] + lut[d2 >> 24 & 0xff] +
+      lut[d3 & 0xff] + lut[d3 >> 8 & 0xff] + lut[d3 >> 16 & 0xff] + lut[d3 >> 24 & 0xff];
   }
   return self;
 })();

@@ -2,10 +2,10 @@
 
 Utility functions for various components in `oe-ui`.
 
-* `base-utils.js` - consists of some utility functions and some `Polyfills` for Internet Explorer.
+* `oe-utils.js` - consists of some utility functions and some `Polyfills` for Internet Explorer.
 * `date-utils.js` - provides date related utility functions.
 
-### base-utils
+### oe-utils
 1. Polyfills for `Object.assign`, `Array.find`, `window.location.origin`, `String.startsWith` and `String.endsWith`.
 1. `getResourceUrl` -  returns the endpoint of UIResources.
 1. `geturl` - returns absolute URL of by prefixing with the base URL.
