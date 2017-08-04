@@ -20,16 +20,16 @@
 <body>
 
   <script>
-    var compareDates = function (a, b) {
+    var compareDates = function(a, b) {
       if (typeof a === 'undefined' || b == 'Invalid Date') return false;
       return a.getDate() === b.getDate() && a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear();
     };
 
-    suite('date-parse', function () {
+    suite('date-parse', function() {
 
-      suite('dates from UK type locale', function () {
-        suite('dates with - separator', function () {
-          test('should return undefined when the date is not valid', function () {
+      suite('dates from UK type locale', function() {
+        suite('dates with - separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0-01-2014', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('0-01-2014', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05-0-14', 'UK'));
@@ -38,7 +38,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('32-13-2015', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('31-4-2015', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10-01-2014', 'UK'), new Date(
               '2014/1/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10-01-14', 'UK'), new Date('2014/1/10')));
@@ -52,8 +52,8 @@
           });
         });
 
-        suite('dates with , separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with , separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0,01,2014', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05,0,14', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1,13,15', 'UK'));
@@ -61,7 +61,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('32,13,2015', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('31,4,2015', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10,01,2014', 'UK'), new Date(
               '2014/1/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10,01,14', 'UK'), new Date('2014/1/10')));
@@ -75,8 +75,8 @@
           });
         });
 
-        suite('dates with = separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with = separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0=01=2014', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05=0=14', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1=13=15', 'UK'));
@@ -84,7 +84,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('32=13=2015', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('31=4=2015', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10=01=2014', 'UK'), new Date(
               '2014/1/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10=01=14', 'UK'), new Date('2014/1/10')));
@@ -97,8 +97,8 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('29=2=96', 'UK'), new Date('1996/2/29')));
           });
         });
-        suite('dates with / separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with / separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0/01/2014', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05/0/14', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1/13/15', 'UK'));
@@ -106,7 +106,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('32/13/2015', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('31/4/2015', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10/01/2014', 'UK'), new Date(
               '2014/1/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10/01/14', 'UK'), new Date('2014/1/10')));
@@ -120,8 +120,8 @@
           });
         });
 
-        suite("dates with ' ' separator ", function () {
-          test('should return undefined when the date is not valid', function () {
+        suite("dates with ' ' separator ", function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0 01 2014', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05 0 14', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1 13 15', 'UK'));
@@ -129,7 +129,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('32 13 2015', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('31 4 2015', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10 01 2014', 'UK'), new Date(
               '2014/1/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10 01 14', 'UK'), new Date('2014/1/10')));
@@ -143,8 +143,8 @@
           });
         });
 
-        suite('dates with : separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with : separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0:01:2014', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05:0:14', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1:13:15', 'UK'));
@@ -152,7 +152,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('32:13:2015', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('31:4:2015', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10:01:2014', 'UK'), new Date(
               '2014/1/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10:01:14', 'UK'), new Date('2014/1/10')));
@@ -166,8 +166,8 @@
           });
         });
 
-        suite('dates with any separator and year is the first part of date', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with any separator and year is the first part of date', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('2014:0:01', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('2019:05:0', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('2034:13:13', 'UK'));
@@ -175,7 +175,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('2018:32:13', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('2018:31:4', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2014:10:01', 'UK'), new Date(
               '2014/10/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2014:10:9', 'UK'), new Date('2014/10/9')));
@@ -184,8 +184,8 @@
           });
         });
 
-        suite('dates with multiple separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with multiple separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0-01/2014', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05-0,14', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1,13-15', 'UK'));
@@ -193,7 +193,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('32=13:2015', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('31,4:2015', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10/01-2014', 'UK'), new Date(
               '2014/1/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10,01/14', 'UK'), new Date('2014/1/10')));
@@ -207,8 +207,8 @@
           });
         });
 
-        suite('dates with external separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with external separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0*01*2014', 'UK', '*'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05+0+14', 'UK', '+'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1\\13\\15', 'UK', '\\'));
@@ -217,7 +217,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('31-4*2015', 'UK', '*'));
           });
 
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10*01*2014', 'UK', '*'), new Date(
               '2014/1/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10\\01\\14', 'UK', '\\'), new Date(
@@ -237,12 +237,12 @@
           });
         });
 
-        suite('dates without any separator with 4 characters', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates without any separator with 4 characters', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0014', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1012', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2398', 'UK'), new Date('1998/3/2')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('1345', 'UK'), new Date('2045/3/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('3478', 'UK'), new Date('1978/4/3')));
@@ -253,8 +253,8 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('7890', 'UK'), new Date('1990/8/7')));
           });
         });
-        suite('dates without any separator with 5 characters', function () {
-          test('should return undefined when the date is not valid or ambiguous', function () {
+        suite('dates without any separator with 5 characters', function() {
+          test('should return undefined when the date is not valid or ambiguous', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('00014', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('10012', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('01012', 'UK'));
@@ -265,7 +265,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('21212', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('21212', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('41012', 'UK'), new Date('2012/10/4')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('31314', 'UK'), new Date('2014/3/31')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('71215', 'UK'), new Date('2015/12/7')));
@@ -274,14 +274,14 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('51113', 'UK'), new Date('2013/11/5')));
           });
         });
-        suite('dates without any separator with 6 characters', function () {
-          test('should return undefined when the date is not valid or ambiguous', function () {
+        suite('dates without any separator with 6 characters', function() {
+          test('should return undefined when the date is not valid or ambiguous', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('000012', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('120013', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('121314', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('321214', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('041010', 'UK'), new Date('2010/10/4')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('310398', 'UK'), new Date('1998/3/31')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('071215', 'UK'), new Date('2015/12/7')));
@@ -290,14 +290,14 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('051113', 'UK'), new Date('2013/11/5')));
           });
         });
-        suite('dates without any separator with 7 characters', function () {
-          test('should return undefined when the date is not valid or ambiguous', function () {
+        suite('dates without any separator with 7 characters', function() {
+          test('should return undefined when the date is not valid or ambiguous', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0002016', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1002013', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('2112019', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('3121998', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('4102010', 'UK'), new Date('2010/10/4')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('3131998', 'UK'), new Date('1998/3/31')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('7122015', 'UK'), new Date('2015/12/7')));
@@ -306,12 +306,12 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('5112013', 'UK'), new Date('2013/11/5')));
           });
         });
-        suite('dates without any separator with 8 characters', function () {
-          test('should return undefined when the date is not valid or ambiguous', function () {
+        suite('dates without any separator with 8 characters', function() {
+          test('should return undefined when the date is not valid or ambiguous', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('00002016', 'UK'));
             assert.equal(undefined, OEUtils.DateUtils.parse('10002013', 'UK'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('04102010', 'UK'), new Date('2010/10/4')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('31031998', 'UK'), new Date('1998/3/31')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('07122015', 'UK'), new Date('2015/12/7')));
@@ -322,9 +322,9 @@
         });
       });
 
-      suite('dates from US type locale', function () {
-        suite('dates with - separator', function () {
-          test('should return undefined when the date is not valid', function () {
+      suite('dates from US type locale', function() {
+        suite('dates with - separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0-01-2014', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05-0-14', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('13-1-15', 'US'));
@@ -332,7 +332,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('16-35-2015', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('4-31-2015', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10-01-2014', 'US'), new Date(
               '2014/10/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10-01-14', 'US'), new Date('2014/10/1')));
@@ -345,8 +345,8 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2-29-96', 'US'), new Date('1996/2/29')));
           });
         });
-        suite('dates with , separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with , separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0,01,2014', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05,0,14', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('13,1,15', 'US'));
@@ -354,7 +354,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('16,35,2015', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('4,31,2015', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10,01,2014', 'US'), new Date(
               '2014/10/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10,01,14', 'US'), new Date('2014/10/1')));
@@ -367,8 +367,8 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2,29,96', 'US'), new Date('1996/2/29')));
           });
         });
-        suite('dates with = separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with = separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0=01=2014', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05=0=14', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('13=1=15', 'US'));
@@ -376,7 +376,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('16=35=2015', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('4=31=2015', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10=01=2014', 'US'), new Date(
               '2014/10/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10=01=14', 'US'), new Date('2014/10/1')));
@@ -389,8 +389,8 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2=29=96', 'US'), new Date('1996/2/29')));
           });
         });
-        suite('dates with / separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with / separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0/01/2014', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05/0/14', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('13/1/15', 'US'));
@@ -398,7 +398,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('16/35/2015', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('4/31/2015', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10/01/2014', 'US'), new Date(
               '2014/10/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10/01/14', 'US'), new Date('2014/10/1')));
@@ -411,8 +411,8 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2/29/96', 'US'), new Date('1996/2/29')));
           });
         });
-        suite("dates with ' ' separator ", function () {
-          test('should return undefined when the date is not valid', function () {
+        suite("dates with ' ' separator ", function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0 01 2014', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05 0 14', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('13 1 15', 'US'));
@@ -420,7 +420,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('16 35 2015', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('4 31 2015', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10 01 2014', 'US'), new Date(
               '2014/10/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10 01 14', 'US'), new Date('2014/10/1')));
@@ -433,8 +433,8 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2 29 96', 'US'), new Date('1996/2/29')));
           });
         });
-        suite('dates with : separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with : separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0:01:2014', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05:0:14', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('13:1:15', 'US'));
@@ -442,7 +442,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('16:35:2015', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('4:31:2015', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10:01:2014', 'US'), new Date(
               '2014/10/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10:01:14', 'US'), new Date('2014/10/1')));
@@ -455,14 +455,14 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2:29:96', 'US'), new Date('1996/2/29')));
           });
         });
-        suite('dates with any separator and year is the first part of date', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with any separator and year is the first part of date', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('2014:0:01', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('2019:05:0', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('2034:32:11', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1998:12:14', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2014:10:01', 'US'), new Date(
               '2014/1/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2014:10:9', 'US'), new Date('2014/9/10')));
@@ -470,8 +470,8 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2016:29:2', 'US'), new Date('2016/2/29')));
           });
         });
-        suite('dates with multiple separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with multiple separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0-01/2014', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05-0:14', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('13/1-15', 'US'));
@@ -479,7 +479,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('16-35/2015', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('4,31 2015', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10/01,2014', 'US'), new Date(
               '2014/10/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10.01 14', 'US'), new Date('2014/10/1')));
@@ -492,8 +492,8 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('2,29/96', 'US'), new Date('1996/2/29')));
           });
         });
-        suite('dates with external separator', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates with external separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0&01&2014', 'US', '&'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05*0*14', 'US', '*'));
             assert.equal(undefined, OEUtils.DateUtils.parse('13@1@15', 'US', '@'));
@@ -501,7 +501,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('16&35-2015', 'US', '&'));
             assert.equal(undefined, OEUtils.DateUtils.parse('4-31&2015', 'US', '&'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10*01*2014', 'US', '*'), new Date(
               '2014/10/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10&01&14', 'US', '&'), new Date(
@@ -520,12 +520,12 @@
               '1996/2/29')));
           });
         });
-        suite('dates without any separator with 4 characters', function () {
-          test('should return undefined when the date is not valid', function () {
+        suite('dates without any separator with 4 characters', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0014', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1012', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('3298', 'US'), new Date('1998/3/2')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('3145', 'US'), new Date('2045/3/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('4378', 'US'), new Date('1978/4/3')));
@@ -536,8 +536,8 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('8790', 'US'), new Date('1990/8/7')));
           });
         });
-        suite('dates without any separator with 5 characters', function () {
-          test('should return undefined when the date is not valid or ambiguous', function () {
+        suite('dates without any separator with 5 characters', function() {
+          test('should return undefined when the date is not valid or ambiguous', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('00014', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('10012', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('01012', 'US'));
@@ -549,7 +549,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('12715', 'US'));
 
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('13112', 'US'), new Date('2012/1/31')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('33114', 'US'), new Date('2014/3/31')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('32916', 'US'), new Date('2016/3/29')));
@@ -557,14 +557,14 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('61513', 'US'), new Date('2013/6/15')));
           });
         });
-        suite('dates without any separator with 6 characters', function () {
-          test('should return undefined when the date is not valid or ambiguous', function () {
+        suite('dates without any separator with 6 characters', function() {
+          test('should return undefined when the date is not valid or ambiguous', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('000012', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('120013', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('131314', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('341214', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('100410', 'US'), new Date('2010/10/4')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('033198', 'US'), new Date('1998/3/31')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('120715', 'US'), new Date('2015/12/7')));
@@ -573,14 +573,14 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('110513', 'US'), new Date('2013/11/5')));
           });
         });
-        suite('dates without any separator with 7 characters', function () {
-          test('should return undefined when the date is not valid or ambiguous', function () {
+        suite('dates without any separator with 7 characters', function() {
+          test('should return undefined when the date is not valid or ambiguous', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0002016', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1002013', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1112019', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1131998', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('4102010', 'US'), new Date('2010/4/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('3131998', 'US'), new Date('1998/3/13')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('7122015', 'US'), new Date('2015/7/12')));
@@ -589,14 +589,14 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('5112013', 'US'), new Date('2013/5/11')));
           });
         });
-        suite('dates without any separator with 8 characters', function () {
-          test('should return undefined when the date is not valid or ambiguous', function () {
+        suite('dates without any separator with 8 characters', function() {
+          test('should return undefined when the date is not valid or ambiguous', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('00002016', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('10002013', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('14002013', 'US'));
             assert.equal(undefined, OEUtils.DateUtils.parse('10322013', 'US'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10042010', 'US'), new Date('2010/10/4')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('03311998', 'US'), new Date('1998/3/31')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('12072015', 'US'), new Date('2015/12/7')));
@@ -606,15 +606,15 @@
           });
         });
       });
-      suite('dates from default type', function () {
-        suite('dates with separator', function () {
-          test('should return undefined when the date is not valid', function () {
+      suite('dates from default type', function() {
+        suite('dates with separator', function() {
+          test('should return undefined when the date is not valid', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0-01-2014'));
             assert.equal(undefined, OEUtils.DateUtils.parse('05-0-14'));
             assert.equal(undefined, OEUtils.DateUtils.parse('14-13-15'));
             assert.equal(undefined, OEUtils.DateUtils.parse('32-13-98'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('01-10-2014'), new Date('2014/10/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10-01-14'), new Date('2014/1/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10-10-2014'), new Date('2014/10/10')));
@@ -625,8 +625,8 @@
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('29-2-96'), new Date('1996/2/29')));
           });
         });
-        suite('dates without separator', function () {
-          test('should return undefined when the date is not valid or ambiguous', function () {
+        suite('dates without separator', function() {
+          test('should return undefined when the date is not valid or ambiguous', function() {
             assert.equal(undefined, OEUtils.DateUtils.parse('0012'));
             assert.equal(undefined, OEUtils.DateUtils.parse('1012'));
             assert.equal(undefined, OEUtils.DateUtils.parse('11213'));
@@ -636,7 +636,7 @@
             assert.equal(undefined, OEUtils.DateUtils.parse('1002014'));
             assert.equal(undefined, OEUtils.DateUtils.parse('0072019'));
           });
-          test('should return the actual date when the date is valid', function () {
+          test('should return the actual date when the date is valid', function() {
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('01102014'), new Date('2014/10/1')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('100114'), new Date('2014/1/10')));
             assert.equal(true, compareDates(OEUtils.DateUtils.parse('10102014'), new Date('2014/10/10')));
@@ -649,6 +649,60 @@
         });
       });
 
+
+    });
+
+    suite('date-format', function() {
+      var testDate = Date.UTC(2015,2,16); //16th March 2015
+      test('When format is not provided, input is returned as it is', function() {
+        assert.equal(OEUtils.DateUtils.format('10-10-2013', ''), '10-10-2013');
+      });
+      test('format "l" is treated as "MM/DD/YYYY"', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,2,16), 'l'), '03/16/2015');
+      });
+      test('DDD shows day of week string', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,2,16), 'DDD'), 'Mon');
+      });
+      test('dddd shows full day of week string', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,2,16), 'dddd'), 'Monday');
+      });
+      test('DD shows day of month string', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,2,16), 'DD'), '16');
+      });
+      test('DD prefixes 0 if required', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,2,6), 'DD'), '06');
+      });
+      test('D shows day of month without prefixing zero', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,2,6), 'D'), '6');
+      });
+
+      test('MMM shows month string', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,2,16), 'MMM'), 'Mar');
+      });
+      test('MM shows month', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,10,16), 'MM'), '11');
+      });
+      test('MM prefixes 0 if required', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,2,6), 'MM'), '03');
+      });
+      test('M shows day of month without prefixing zero', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,2,6), 'M'), '3');
+      });
+
+      test('YYYY shows full year', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,2,16), 'YYYY'), '2015');
+      });
+      test('YY shows year', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,10,16), 'YY'), '15');
+      });
+      test('Y shows full year', function() {
+        assert.equal(OEUtils.DateUtils.format(Date.UTC(2015,2,6), 'Y'), '2015');
+      });
+      
+      test('Y shows full year', function() {
+        var today = new Date();
+        assert.equal(OEUtils.DateUtils.format("Fri Aug 04 2017 12:00:00 GMT+0530 (India Standard Time)", 'DDD YYYY MM D'), 'Fri 2017 08 4');
+      });
 
     });
 

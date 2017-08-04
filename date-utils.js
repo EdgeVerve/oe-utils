@@ -220,6 +220,7 @@ OEUtils.DateUtils.format = function (date, format) {
     return date;
   }
   var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var daysFull = ['Sunday', 'Monday', 'Tueday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   if (typeof date === 'number') {
@@ -229,20 +230,6 @@ OEUtils.DateUtils.format = function (date, format) {
   }
   if (format === 'l') {
     format = 'MM/DD/YYYY';
-  }
-  if (format.indexOf('DDD') >= 0) {
-    var day = parseInt(date.getUTCDay());
-    format = format.replace('DDD', days[day]);
-  } else if (format.indexOf('DD') >= 0) {
-    var dayDate = parseInt(date.getUTCDate());
-    if (dayDate < 10) {
-      format = format.replace('DD', '0' + dayDate);
-    } else {
-      format = format.replace('DD', dayDate);
-    }
-  } else if (format.indexOf('D') >= 0) {
-    day = parseInt(date.getUTCDate());
-    format = format.replace('D', day);
   }
 
   if (format.indexOf('MMM') >= 0) {
@@ -260,9 +247,26 @@ OEUtils.DateUtils.format = function (date, format) {
     format = format.replace('M', month);
   }
 
+  if (format.indexOf('DDD') >= 0) {
+    var day = parseInt(date.getUTCDay());
+    format = format.replace('DDD', days[day]);
+  } 
+  if (format.indexOf('DD') >= 0) {
+    var dayDate = parseInt(date.getUTCDate());
+    if (dayDate < 10) {
+      format = format.replace('DD', '0' + dayDate);
+    } else {
+      format = format.replace('DD', dayDate);
+    }
+  } 
+  if (format.indexOf('D') >= 0) {
+    day = parseInt(date.getUTCDate());
+    format = format.replace('D', day);
+  }
+
   if (format.indexOf('dddd') >= 0) {
     day = parseInt(date.getUTCDay());
-    format = format.replace('dddd', days[day]);
+    format = format.replace('dddd', daysFull[day]);
   }
 
   if (format.indexOf('YYYY') >= 0) {
