@@ -89,7 +89,7 @@ if (!String.prototype.endsWith) {
   };
 }
 
-OEUtils.geturl = function (url) {
+OEUtils.geturl = OEUtils.geturl || function (url) {
 
   if (url.startsWith('http') ||
     url.startsWith('file')) {
