@@ -18,9 +18,13 @@ OEUtils.DateUtils.utcDateFormatter = (function () {
   });
 })();
 
-OEUtils.DateUtils.parse = function (date, inputType) {
+OEUtils.DateUtils.parse = function (date, inputFormat) {
   if (typeof date === 'undefined' || date.length < 4) {
     return;
+  }
+  inputFormat = (inputFormat && inputFormat.toUpperCase()) || 'UK';
+  if(inputFormat.indexOf('DD') > inputFormat.indexOf('MM')){
+    inputFormat = 'US';
   }
 
   var resultDate;
@@ -38,10 +42,6 @@ OEUtils.DateUtils.parse = function (date, inputType) {
   });
   date = date.replace(/[^0-9]/g, separator);
 
-  //check if the date format is of US locale.
-  //If the format is not given then default is of UK.
-  var isUSInputType = (inputType && inputType.toUpperCase() === 'US');
-
   //check if the date is with or without delimiter.
   var withSeperator = (date.indexOf(separator) > -1);
 
@@ -57,7 +57,7 @@ OEUtils.DateUtils.parse = function (date, inputType) {
   var dateString = '';
 
   // for US based date format.
-  if (isUSInputType) {
+  if (inputFormat === 'US') {
     // without any delimiter.
     if (!withSeperator && !isNan) {
       switch (length) {

@@ -649,6 +649,31 @@
         });
       });
 
+      suite('dates from specified format', function() {
+        suite('dates with separator', function() {
+          test('should return undefined when the date is not valid', function() {
+            assert.equal(undefined, OEUtils.DateUtils.parse('0-01-2014','MM-DD-YYYY'));
+            assert.equal(undefined, OEUtils.DateUtils.parse('05-0-14','DD-MM-YY'));
+            assert.equal(undefined, OEUtils.DateUtils.parse('14-13-15','DD-MM-YY'));
+            assert.equal(undefined, OEUtils.DateUtils.parse('32-13-98','DD-MM-YY'));
+          });
+          test('should return the actual date when the date is valid', function() {
+            assert.equal(true, compareDates(OEUtils.DateUtils.parse('01-10-2014','DD-MM-YYYY'), new Date('2014/10/1')));
+            assert.equal(true, compareDates(OEUtils.DateUtils.parse('10-01-14','DD-MM-YYYY'), new Date('2014/1/10')));
+            assert.equal(true, compareDates(OEUtils.DateUtils.parse('01-10-2014','MM-DD-YYYY'), new Date('2014/01/10')));
+            assert.equal(true, compareDates(OEUtils.DateUtils.parse('10-01-14','MM-DD-YYYY'), new Date('2014/10/01')));
+          });
+        });
+        suite('dates without separator', function() {
+          test('should return the actual date when the date is valid', function() {
+            /* 1st Oct 2014 */
+            assert.equal(true, compareDates(OEUtils.DateUtils.parse('01102014','DDMMYYYY'), new Date('2014/10/1')));
+            
+            /* Jan 10th 2014 */
+            assert.equal(true, compareDates(OEUtils.DateUtils.parse('01102014','MMDDYYYY'), new Date('2014/01/10')));
+          });
+        });
+      });
 
     });
 
