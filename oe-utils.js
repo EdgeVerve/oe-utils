@@ -210,7 +210,7 @@ if (undefined === document.createElement('style').scoped) {
 
       return css;
     };
-    var guid = node.id || OEUtils.generateGuid();
+    var guid = node.id || 'oe-'+ OEUtils.generateGuid();
     node.setAttribute('id', guid);
     [].forEach.call(node.querySelectorAll('style[scoped]'), function (style) {
       style.innerHTML = scoper(style.innerHTML, '#' + guid);
