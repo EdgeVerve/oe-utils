@@ -4,7 +4,8 @@
 
 var OEUtils = OEUtils || {};
 OEUtils.getResourceUrl = function () {
-  return 'api/UIResources';
+  var restApiRoot = (window.OEUtils && window.OEUtils.restApiRoot) ? window.OEUtils.restApiRoot : '/api';
+  return restApiRoot + '/UIResources';
 };
 
 //IE polyfills
@@ -120,7 +121,8 @@ OEUtils.geturl = OEUtils.geturl || function (url) {
   }
 
   var ret = url;
-  if (url.startsWith('api')) {
+
+  /*if (url.startsWith('api')) {
     ret = OEUtils.apibaseroute + '/' + url;
   } else if (url.startsWith('/api') || url.startsWith('/auth')) {
     ret = OEUtils.apibaseroute + url;
@@ -128,6 +130,15 @@ OEUtils.geturl = OEUtils.geturl || function (url) {
     ret = OEUtils.uibaseroute + url;
   } else {
     ret = OEUtils.uibaseroute + '/' + url;
+  }*/
+  var restApiRoot = (window.OEUtils && window.OEUtils.restApiRoot) ? window.OEUtils.restApiRoot : '/api';
+  if(!url.startsWith('/')){
+	  url = '/' + url;
+  }
+  if(url.startsWith(restApiRoot) || url.startsWith('/auth') || url.startsWith('/designer')){
+	  ret = OEUtils.apibaseroute + url;
+  } else {
+	  ret = OEUtils.uibaseroute + url;
   }
   return ret;
 };
