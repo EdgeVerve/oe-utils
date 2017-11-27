@@ -20,6 +20,6 @@ Utility functions for various components in `oe-ui`.
 1. `split` - returns an array of values which can be interpreted as values of day, month and year for a given date.
 
 
-### date-utils
+### oe-cache-utils
 1. `oe-update-cache`- event updates the  data for the key specified
 2. `oe-cache-{{key}}-updated`- event is raised, when the data is updated successfully for the key specified
