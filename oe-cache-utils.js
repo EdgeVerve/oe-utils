@@ -9,7 +9,6 @@
     this._updateCache = function(e) {
         //  console.log("updating")
         if (e && e.detail && e.detail.key && e.detail.data) {
-            console.log('Updating for ', e.detail.key);
             this.store[e.detail.key] = e.detail.data;
             this.fire('oe-cache-' + e.detail.key + '-updated', e.detail.data);
         }
