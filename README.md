@@ -4,6 +4,7 @@ Utility functions for various components in `oe-ui`.
 
 * `oe-utils.js` - consists of some utility functions and some `Polyfills` for Internet Explorer.
 * `date-utils.js` - provides date related utility functions.
+* `oe-cache-utils.js` - provides cache to optimize the server requests made by a component
 
 ### oe-utils
 1. Polyfills for `Object.assign`, `Array.find`, `window.location.origin`, `String.startsWith` and `String.endsWith`.
@@ -17,3 +18,8 @@ Utility functions for various components in `oe-ui`.
 1. `format` - returns date string of provided format from date object
 1. `setDate`  - returns date object from provided date string in `ddmmyyyy` format
 1. `split` - returns an array of values which can be interpreted as values of day, month and year for a given date.
+
+
+### oe-cache-utils
+1. `oe-update-cache`- event updates the  data for the key specified
+2. `oe-cache-{{key}}-updated`- event is raised, when the data is updated successfully for the key specified
