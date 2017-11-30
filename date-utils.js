@@ -23,7 +23,7 @@ OEUtils.DateUtils.parse = function (date, inputFormat) {
     return;
   }
   inputFormat = (inputFormat && inputFormat.toUpperCase()) || 'UK';
-  if(inputFormat.indexOf('DD') > inputFormat.indexOf('MM')){
+  if (inputFormat.indexOf('DD') > inputFormat.indexOf('MM')) {
     inputFormat = 'US';
   }
 
@@ -72,7 +72,7 @@ OEUtils.DateUtils.parse = function (date, inputFormat) {
             break;
           }
 
-          // if the length of date is 5 or 7 then last two or four letters will be considered as year and first three letters will be checked against month and day eligibility. In case of confusion undefined will be returned.
+        // if the length of date is 5 or 7 then last two or four letters will be considered as year and first three letters will be checked against month and day eligibility. In case of confusion undefined will be returned.
         case 5:
         case 7:
 
@@ -106,7 +106,7 @@ OEUtils.DateUtils.parse = function (date, inputFormat) {
           resultDate = setDate(dateString);
           break;
 
-          // if the length of date is 6 then first two letters will be cosidered as month, next two for day and rest two for year.
+        // if the length of date is 6 then first two letters will be cosidered as month, next two for day and rest two for year.
         case 6:
           day = date.slice(2, 4);
           month = date.slice(0, 2);
@@ -115,7 +115,7 @@ OEUtils.DateUtils.parse = function (date, inputFormat) {
           resultDate = setDate(dateString);
           break;
 
-          // if the length of date is 8 then first two letters will be cosidered as month, next two for day and rest four for year.L
+        // if the length of date is 8 then first two letters will be cosidered as month, next two for day and rest four for year.L
         case 8:
           dateString = date.slice(2, 4) + date.slice(0, 2) + date.slice(4, 8);
           resultDate = setDate(dateString);
@@ -145,7 +145,7 @@ OEUtils.DateUtils.parse = function (date, inputFormat) {
           resultDate = setDate(dateString);
           break;
 
-          // if the length of date is 5 or 7 then last two or four letters will be cosidered as year and first three letters will be checked against month and day eligibility. In case of confusion undefined will be returned.
+        // if the length of date is 5 or 7 then last two or four letters will be cosidered as year and first three letters will be checked against month and day eligibility. In case of confusion undefined will be returned.
         case 5:
         case 7:
           dateString = '';
@@ -182,7 +182,7 @@ OEUtils.DateUtils.parse = function (date, inputFormat) {
           dateString = day + month + year;
           resultDate = setDate(dateString);
           break;
-          // if the length of date is 6 then first two letters will be cosidered as day, next two for month and rest two for year.
+        // if the length of date is 6 then first two letters will be cosidered as day, next two for month and rest two for year.
         case 6:
           day = date.slice(0, 2);
           month = date.slice(2, 4);
@@ -192,7 +192,7 @@ OEUtils.DateUtils.parse = function (date, inputFormat) {
           resultDate = setDate(dateString);
           break;
 
-          // if the length of date is 8 then first two letters will be cosidered as day, next two for month and rest four for year.
+        // if the length of date is 8 then first two letters will be cosidered as day, next two for month and rest four for year.
         case 8:
           dateString = date.slice(0, 2) + date.slice(2, 4) + date.slice(4, 8);
           resultDate = setDate(dateString);
@@ -215,15 +215,12 @@ OEUtils.DateUtils.parse = function (date, inputFormat) {
 };
 
 OEUtils.DateUtils.format = function (date, format) {
-
-  if (format === '') {
+  if (!format) {
     return date;
   }
-  var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  var daysFull = ['Sunday', 'Monday', 'Tueday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-  if (typeof date === 'number') {
+  if (!date) {
+    return '';
+  } else if (typeof date === 'number') {
     date = new Date(date);
   } else if (typeof date === 'string') {
     date = new Date(date);
@@ -231,57 +228,49 @@ OEUtils.DateUtils.format = function (date, format) {
   if (format === 'l') {
     format = 'MM/DD/YYYY';
   }
-
-  if (format.indexOf('MMM') >= 0) {
-    month = parseInt(date.getUTCMonth());
-    format = format.replace('MMM', months[month]);
-  } else if (format.indexOf('MM') >= 0) {
-    var month = parseInt(date.getUTCMonth() + 1);
-    if (month < 10) {
-      format = format.replace('MM', '0' + month);
-    } else {
-      format = format.replace('MM', month);
-    }
-  } else if (format.indexOf('M') >= 0) {
-    month = parseInt(date.getUTCMonth() + 1);
-    format = format.replace('M', month);
-  }
-
-  if (format.indexOf('DDD') >= 0) {
-    var day = parseInt(date.getUTCDay());
-    format = format.replace('DDD', days[day]);
-  } 
-  if (format.indexOf('DD') >= 0) {
-    var dayDate = parseInt(date.getUTCDate());
-    if (dayDate < 10) {
-      format = format.replace('DD', '0' + dayDate);
-    } else {
-      format = format.replace('DD', dayDate);
-    }
-  } 
-  if (format.indexOf('D') >= 0) {
-    day = parseInt(date.getUTCDate());
-    format = format.replace('D', day);
-  }
-
-  if (format.indexOf('dddd') >= 0) {
-    day = parseInt(date.getUTCDay());
-    format = format.replace('dddd', daysFull[day]);
-  }
-
-  if (format.indexOf('YYYY') >= 0) {
-    var year = date.getUTCFullYear();
-    format = format.replace('YYYY', year);
-  } else if (format.indexOf('YY') >= 0) {
-    year = date.getUTCFullYear().toString().slice(2, 4);
-    format = format.replace('YY', year);
-  } else if (format.indexOf('Y') >= 0) {
-    year = date.getUTCFullYear();
-    format = format.replace('Y', year);
-  }
-
-  return format;
+  return format.replace(/([a-zA-Z]+)/g, function ($1) {
+    return getFormat(date, $1);
+  });
 };
+
+function getFormat(date, format) {
+  var abbreviatedDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var days = ['Sunday', 'Monday', 'Tueday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  var abbreviatedMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var formats = ["D", "DD", "M", "MM", "MMM", "MMMM", "Y", "YY", "YYYY", "ddd", "dddd"];
+
+  switch (format) {
+    case "D":
+      return date.getUTCDate();
+    case "DD":
+      var d = date.getUTCDate();
+      return d < 10 ? '0' + d : d;
+    case "M":
+      return date.getUTCMonth() + 1;
+    case "MM":
+      var m = date.getUTCMonth() + 1;
+      return m < 10 ? '0' + m : m;
+    case "MMM":
+      return abbreviatedMonths[date.getUTCMonth()];
+    case "MMMM":
+      return months[date.getUTCMonth()];
+    case "Y":
+      return date.getUTCFullYear();
+    case "YY":
+      return date.getUTCFullYear().toString().slice(2, 4);
+    case "YYYY":
+      return date.getUTCFullYear();
+    case "ddd":
+    case "DDD":
+      return abbreviatedDays[date.getUTCDay()];
+    case "dddd":
+    case "DDDD":
+      return days[date.getUTCDay()];
+	default:
+	  return '';
+  }
+}
 
 // setdate sets the date. Accepts 8 character string in ddmmyyyy
 function setDate(date) {
