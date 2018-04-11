@@ -35,6 +35,7 @@ module.exports = {
         '/node_modules/**/*.js',
         '/test/**/*.html',
         '/test/**/*.js',
+        '/oe-utils.js',
         '/scripts/*.js'
       ],
       thresholds: {
