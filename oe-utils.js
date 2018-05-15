@@ -8,6 +8,30 @@ OEUtils.getResourceUrl = function () {
   return restApiRoot + '/UIResources';
 };
 
+OEUtils.clone = function(from, to) {
+  if (from === null || typeof from !== 'object') {
+    return from;
+  }
+  if (from.constructor !== Object && from.constructor !== Array) {
+    return from;
+  }
+  if (from.constructor === Date || from.constructor === RegExp || from.constructor === Function ||
+    from.constructor === String || from.constructor === Number || from.constructor === Boolean) {
+    return new from.constructor(from);
+  }
+  to = to || new from.constructor();
+
+  from && Object.keys(from).forEach(function(name) {
+    to[name] = typeof to[name] === 'undefined' ? OEUtils.clone(from[name], null) : to[name];
+  })
+
+  return to;
+}
+
+OEUtils.deepCloneJSON = function(fromObj){
+  return JSON.parse(JSON.stringify(fromObj));
+}
+
 //IE polyfills
 
 /**
@@ -37,7 +61,6 @@ if (typeof Object.assign !== 'function') {
   };
 }
 
-
 if (!Array.prototype.find) {
   Object.defineProperty(Array.prototype, 'find', {
     value: function (predicate) {
@@ -64,6 +87,52 @@ if (!Array.prototype.find) {
   });
 }
 
+// https://tc39.github.io/ecma262/#sec-array.prototype.findIndex
+if (!Array.prototype.findIndex) {
+  Object.defineProperty(Array.prototype, 'findIndex', {
+    value: function(predicate) {
+     // 1. Let O be ? ToObject(this value).
+      if (this == null) {
+        throw new TypeError('"this" is null or not defined');
+      }
+
+      var o = Object(this);
+
+      // 2. Let len be ? ToLength(? Get(O, "length")).
+      var len = o.length >>> 0;
+
+      // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+      if (typeof predicate !== 'function') {
+        throw new TypeError('predicate must be a function');
+      }
+
+      // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+      var thisArg = arguments[1];
+
+      // 5. Let k be 0.
+      var k = 0;
+
+      // 6. Repeat, while k < len
+      while (k < len) {
+        // a. Let Pk be ! ToString(k).
+        // b. Let kValue be ? Get(O, Pk).
+        // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+        // d. If testResult is true, return k.
+        var kValue = o[k];
+        if (predicate.call(thisArg, kValue, k, o)) {
+          return k;
+        }
+        // e. Increase k by 1.
+        k++;
+      }
+
+      // 7. Return -1.
+      return -1;
+    },
+    configurable: true,
+    writable: true
+  });
+}
 /**
  * Polyfill for location.origin to make it available in browsers older than IE 11
  */
@@ -90,6 +159,25 @@ if (!String.prototype.endsWith) {
   };
 }
 
+
+// https://github.com/uxitten/polyfill/blob/master/string.polyfill.js
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart
+if (!String.prototype.padStart) {
+    String.prototype.padStart = function padStart(targetLength,padString) {
+        targetLength = targetLength>>0; //truncate if number or convert non-number to 0;
+        padString = String((typeof padString !== 'undefined' ? padString : ' '));
+        if (this.length > targetLength) {
+            return String(this);
+        }
+        else {
+            targetLength = targetLength-this.length;
+            if (targetLength > padString.length) {
+                padString += padString.repeat(targetLength/padString.length); //append to original to ensure we are longer than needed
+            }
+            return padString.slice(0,targetLength) + String(this);
+        }
+    };
+}
 OEUtils.geturl = OEUtils.geturl || function (url) {
 
   if (url.startsWith('http') ||

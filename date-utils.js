@@ -256,11 +256,11 @@ function getFormat(date, format) {
     case "MMMM":
       return months[date.getUTCMonth()];
     case "Y":
-      return date.getUTCFullYear();
+      return (''+date.getUTCFullYear()).padStart(4,'0');;
     case "YY":
       return date.getUTCFullYear().toString().slice(2, 4);
     case "YYYY":
-      return date.getUTCFullYear();
+      return (''+date.getUTCFullYear()).padStart(4,'0');
     case "ddd":
     case "DDD":
       return abbreviatedDays[date.getUTCDay()];
