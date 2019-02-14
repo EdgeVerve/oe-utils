@@ -220,17 +220,13 @@ OEUtils.geturl = OEUtils.geturl || function (url) {
     ret = OEUtils.uibaseroute + '/' + url;
   }*/
   var restApiRoot = (window.OEUtils && window.OEUtils.restApiRoot) ? window.OEUtils.restApiRoot : '/api';
-  var subPath = (window.OEUtils && window.OEUtils.subPath) ? window.OEUtils.subPath : '';
   if (!url.startsWith('/')) {
     url = '/' + url;
   }
-  if (subPath && !subPath.startsWith('/')) {
-    subPath = '/' + subPath;
-  }
   if (url.startsWith(restApiRoot) || url.startsWith('/auth') || url.startsWith('/designer')) {
-    ret = OEUtils.apibaseroute + subPath + url;
+    ret = OEUtils.apibaseroute + url;
   } else {
-    ret = OEUtils.uibaseroute + subPath + url;
+    ret = OEUtils.uibaseroute + url;
   }
   return ret;
 };
