@@ -1,8 +1,10 @@
-/*
-©2016-2017 EdgeVerve Systems Limited (a fully owned Infosys subsidiary), Bangalore, India. All Rights Reserved.
-*/
+/**
+ * @license
+ * ©2016-2017 EdgeVerve Systems Limited (a fully owned Infosys subsidiary), Bangalore, India. All Rights Reserved.
+ */
 
-var OEUtils = OEUtils || {};
+window.OEUtils = window.OEUtils || {};
+var OEUtils = window.OEUtils;
 OEUtils.getResourceUrl = function () {
   var restApiRoot = (window.OEUtils && window.OEUtils.restApiRoot) ? window.OEUtils.restApiRoot : '/api';
   return restApiRoot + '/UIResources';
@@ -23,14 +25,14 @@ OEUtils.clone = function(from, to) {
 
   from && Object.keys(from).forEach(function(name) {
     to[name] = typeof to[name] === 'undefined' ? OEUtils.clone(from[name], null) : to[name];
-  })
+  });
 
   return to;
-}
+};
 
 OEUtils.deepCloneJSON = function(fromObj){
   return JSON.parse(JSON.stringify(fromObj));
-}
+};
 
 //IE polyfills
 
@@ -41,7 +43,7 @@ OEUtils.deepCloneJSON = function(fromObj){
 
 if (typeof Object.assign !== 'function') {
   Object.assign = function (target) {
-    'use strict';
+    
     if (target === null) {
       throw new TypeError('Cannot convert undefined or null to object');
     }
@@ -64,7 +66,7 @@ if (typeof Object.assign !== 'function') {
 if (!Array.prototype.find) {
   Object.defineProperty(Array.prototype, 'find', {
     value: function (predicate) {
-      'use strict';
+      
       if (this === null) {
         throw new TypeError('Array.prototype.find called on null or undefined');
       }
@@ -158,7 +160,30 @@ if (!String.prototype.endsWith) {
     return lastIndex !== -1 && lastIndex === position;
   };
 }
+/**
+ * Polyfill for to toISOString to make it available in browsers older than IE 11
+ */
+if (!Date.prototype.toISOString) {
+  (function() {
 
+    function pad(number) {
+      if (number < 10) {
+        return '0' + number;
+      }
+      return number;
+    }
+
+    Date.prototype.toISOString = function() {
+      return this.getUTCDay() +
+        ' ' + pad(this.getUTCMonth() + 1) +
+        ' ' + pad(this.getUTCDate()) +
+        ' ' + this.getUTCFullYear() +
+        ' ' + pad(this.getUTCHours()) +
+        ':' + pad(this.getUTCMinutes()) +
+        ':' + pad(this.getUTCSeconds());
+    };
+  }());
+}
 
 // https://github.com/uxitten/polyfill/blob/master/string.polyfill.js
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart
@@ -285,7 +310,7 @@ OEUtils.camelCaseToLabel = function (s) {
 if (undefined === document.createElement('style').scoped) {
   OEUtils.scopeStyles = function (node) {
     var scoper = function (css, prefix) {
-      var re = new RegExp('([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)', 'g'); // eslint-disable-line no-control-regex
+      var re = new RegExp('([^\r\n,{}]+)(,(?=[^}]*{)|\s*{)', 'g'); //eslint-disable-line
       css = css.replace(re, function (g0, g1, g2) {
 
         if (g1.match(/^\s*(@media|@keyframes|to|from|@font-face)/)) {
@@ -345,6 +370,6 @@ OEUtils.UUID = (function () {
       lut[d1 & 0xff] + lut[d1 >> 8 & 0xff] + '-' + lut[d1 >> 16 & 0x0f | 0x40] + lut[d1 >> 24 & 0xff] + '-' +
       lut[d2 & 0x3f | 0x80] + lut[d2 >> 8 & 0xff] + '-' + lut[d2 >> 16 & 0xff] + lut[d2 >> 24 & 0xff] +
       lut[d3 & 0xff] + lut[d3 >> 8 & 0xff] + lut[d3 >> 16 & 0xff] + lut[d3 >> 24 & 0xff];
-  }
+  };
   return self;
 })();

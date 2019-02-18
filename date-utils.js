@@ -1,11 +1,12 @@
-/*
-©2016-2017 EdgeVerve Systems Limited (a fully owned Infosys subsidiary), Bangalore, India. All Rights Reserved.
-*/
+/**
+ * @license
+ * ©2016-2017 EdgeVerve Systems Limited (a fully owned Infosys subsidiary), Bangalore, India. All Rights Reserved.
+ */
 
 // date parse module.
 
-var OEUtils = OEUtils || {};
-
+window.OEUtils = window.OEUtils || {};
+var OEUtils = window.OEUtils;
 OEUtils.DateUtils = {
   months: ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 };
@@ -238,7 +239,7 @@ function getFormat(date, format) {
   var days = ['Sunday', 'Monday', 'Tueday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   var abbreviatedMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  var formats = ["D", "DD", "M", "MM", "MMM", "MMMM", "Y", "YY", "YYYY", "ddd", "dddd"];
+  var formats = ["D", "DD", "M", "MM", "MMM", "MMMM", "Y", "YY", "YYYY", "ddd", "dddd"]; //eslint-disable-line no-unused-vars
 
   switch (format) {
     case "D":
@@ -256,19 +257,19 @@ function getFormat(date, format) {
     case "MMMM":
       return months[date.getUTCMonth()];
     case "Y":
-      return (''+date.getUTCFullYear()).padStart(4,'0');;
+      return ('' + date.getUTCFullYear()).padStart(4, '0');
     case "YY":
       return date.getUTCFullYear().toString().slice(2, 4);
     case "YYYY":
-      return (''+date.getUTCFullYear()).padStart(4,'0');
+      return ('' + date.getUTCFullYear()).padStart(4, '0');
     case "ddd":
     case "DDD":
       return abbreviatedDays[date.getUTCDay()];
     case "dddd":
     case "DDDD":
       return days[date.getUTCDay()];
-	default:
-	  return '';
+    default:
+      return '';
   }
 }
 
