@@ -215,7 +215,7 @@ OEUtils.DateUtils.parse = function (date, inputFormat) {
   return resultDate;
 };
 
-OEUtils.DateUtils.format = function (date, format) {
+OEUtils.DateUtils.format = function (date, format, locale) {
   if (!format) {
     return date;
   }
@@ -230,47 +230,47 @@ OEUtils.DateUtils.format = function (date, format) {
     format = 'MM/DD/YYYY';
   }
   return format.replace(/([a-zA-Z]+)/g, function ($1) {
-    return getFormat(date, $1);
+    return getFormat(date, $1, locale);
   });
 };
 
-function getFormat(date, format) {
-  var abbreviatedDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  var days = ['Sunday', 'Monday', 'Tueday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  var abbreviatedMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  var formats = ["D", "DD", "M", "MM", "MMM", "MMMM", "Y", "YY", "YYYY", "ddd", "dddd"]; //eslint-disable-line no-unused-vars
+function getFormat(date, format, locale) {
+  if (!locale) {
+    locale = navigator.language;
+  }
+  var formatOption = {
+    timeZone: "UTC"
+  };
 
   switch (format) {
     case "D":
-      return date.getUTCDate();
+      formatOption.day = "numeric"; break;
     case "DD":
-      var d = date.getUTCDate();
-      return d < 10 ? '0' + d : d;
+      formatOption.day = "2-digit"; break;
     case "M":
-      return date.getUTCMonth() + 1;
+      formatOption.month = "numeric"; break;
     case "MM":
-      var m = date.getUTCMonth() + 1;
-      return m < 10 ? '0' + m : m;
+      formatOption.month = "2-digit"; break;
     case "MMM":
-      return abbreviatedMonths[date.getUTCMonth()];
+      formatOption.month = "short"; break;
     case "MMMM":
-      return months[date.getUTCMonth()];
+      formatOption.month = "long"; break;
     case "Y":
-      return ('' + date.getUTCFullYear()).padStart(4, '0');
+      formatOption.year = "numeric"; break;
     case "YY":
-      return date.getUTCFullYear().toString().slice(2, 4);
+      formatOption.year = "2-digit"; break;
     case "YYYY":
-      return ('' + date.getUTCFullYear()).padStart(4, '0');
+      formatOption.year = "numeric"; break;
     case "ddd":
     case "DDD":
-      return abbreviatedDays[date.getUTCDay()];
+      formatOption.weekday = "short"; break;
     case "dddd":
     case "DDDD":
-      return days[date.getUTCDay()];
+      formatOption.weekday = "long"; break;
     default:
-      return '';
+      return format;
   }
+  return Intl.DateTimeFormat(locale, formatOption).format(date);
 }
 
 // setdate sets the date. Accepts 8 character string in ddmmyyyy
