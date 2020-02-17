@@ -19,201 +19,166 @@ OEUtils.DateUtils.utcDateFormatter = (function () {
   });
 })();
 
-OEUtils.DateUtils.parse = function (date, inputFormat) {
-  if (typeof date === 'undefined' || date.length < 4) {
+OEUtils.DateUtils.parse = function (dateStr, dateFormat) {
+  if (typeof dateStr === 'undefined' || dateStr.length < 4) {
     return;
   }
-  inputFormat = (inputFormat && inputFormat.toUpperCase()) || 'UK';
-  if (inputFormat.indexOf('DD') > inputFormat.indexOf('MM')) {
-    inputFormat = 'US';
+  if (!dateFormat) {
+    dateFormat = "DD-MM-YYYY";
   }
-
-  var resultDate;
   var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
-  // separators with date string;
-  var separator = '-';
-
-  //replacing all special characters with '-'; and if it contains month name then replace with standard integer value;
-  date = date.toLowerCase();
+  dateStr = dateStr.toLowerCase();
   OEUtils.DateUtils.months.forEach(function (d) {
-    if (date.indexOf(d) > -1) {
-      date = date.replace(d, months.indexOf(d) + 1);
+    if (dateStr.indexOf(d) > -1) {
+      dateStr = dateStr.replace(d, months.indexOf(d) + 1);
     }
   });
-  date = date.replace(/[^0-9]/g, separator);
-
-  //check if the date is with or without delimiter.
-  var withSeperator = (date.indexOf(separator) > -1);
-
-  //if the date is without delimiter then it may be containing some alphabets.
-  var isNan = (function (d) {
-    return isNaN(d);
-  })(date);
-
-  var length = date.length;
-  var day = '';
-  var month = '';
-  var year = '';
-  var dateString = '';
-
-  // for US based date format.
-  if (inputFormat === 'US') {
-    // without any delimiter.
-    if (!withSeperator && !isNan) {
-      switch (length) {
-        // if the length of date is 4 then first letter will be cosidered as month, second for day and rest two for year.
-        case 4:
-          {
-            day = '0' + date.slice(1, 2);
-            month = '0' + date.slice(0, 1);
-            year = parseInt(date.slice(2, 4)) >= 70 ? '19' + date.slice(2, 4) : '20' + date.slice(2, 4);
-            dateString = day + month + year;
-            resultDate = setDate(dateString);
-            break;
-          }
-
-        // if the length of date is 5 or 7 then last two or four letters will be considered as year and first three letters will be checked against month and day eligibility. In case of confusion undefined will be returned.
-        case 5:
-        case 7:
-
-          if (length === 5) {
-            year = parseInt(date.slice(3, 5)) >= 70 ? '19' + date.slice(3, 5) : '20' + date.slice(3, 5);
-          } else {
-            year = date.slice(3, 7);
-          }
-          day = '00';
-          month = '00';
-          var a = parseInt(date.slice(0, 1));
-          var b = parseInt(date.slice(1, 2));
-          var c = parseInt(date.slice(2, 3));
-          var nextTwo = parseInt(date.slice(1, 3));
-
-          if (a >= 2 || (c === 0 && a !== 0) || b > 2) {
-            month = '0' + date.slice(0, 1);
-            day = date.slice(1, 3);
-          } else if (a === 0) {
-            month = date.slice(0, 2);
-            day = '0' + date.slice(2, 3);
-          } else if (a <= 3 && a !== 0 && b === 1 && c <= 2) {
-            //conflict = true;
-            break;
-          } else {
-            //conflict = true;
-            break;
-          }
-
-          dateString = day + month + year;
-          resultDate = setDate(dateString);
-          break;
-
-        // if the length of date is 6 then first two letters will be cosidered as month, next two for day and rest two for year.
-        case 6:
-          day = date.slice(2, 4);
-          month = date.slice(0, 2);
-          year = parseInt(date.slice(4, 6)) >= 70 ? '19' + date.slice(4, 6) : '20' + date.slice(4, 6);
-          dateString = day + month + year;
-          resultDate = setDate(dateString);
-          break;
-
-        // if the length of date is 8 then first two letters will be cosidered as month, next two for day and rest four for year.L
-        case 8:
-          dateString = date.slice(2, 4) + date.slice(0, 2) + date.slice(4, 8);
-          resultDate = setDate(dateString);
-          break;
-
-        default:
-          break;
-      }
-    } else if (withSeperator && isNan) {
-      var dateArray = split(date, separator);
-      var temp = dateArray[0];
-      dateArray[0] = dateArray[1];
-      dateArray[1] = temp;
-      resultDate = setDate(dateArray.join(''));
-    }
+  let separator = "-";    //Fix separator to handle multiple separator in format
+  dateStr = dateStr.replace(/[^0-9]/g, separator);
+  dateFormat = dateFormat.replace(/[^DMY]/g, separator);
+  let hasSeparator = dateStr.indexOf(separator) !== -1;   //Check if format is like DDMMYYYY
+  var dateMap = {
+    d: -1,
+    m: -1,
+    y: -1
+  };
+  let format = dateFormat.toLowerCase();
+  var isUSFormat = format.indexOf('dd') > format.indexOf('mm');
+  if (hasSeparator) {
+    let dateSegments = dateStr.split(separator);
+    //Populates date/month and year value into dateMap object.
+    format.split(separator).forEach((k, i) => {
+      dateMap[k[0]] = parseInt(dateSegments[i]);  //k[0] will be 'd','m','y'
+    });
   } else {
-    // for non-US based dates.
-    if (!withSeperator && !isNan) {
-      switch (length) {
-        // if the length of date is 4 then first letter will be considered as day, second for month and rest two for year.
-        case 4:
-          day = '0' + date.slice(0, 1);
-          month = '0' + date.slice(1, 2);
-          // if year is of length 2 then add a prefix of 19 if greater than 70 and add 20 if less than 70.
-          year = parseInt(date.slice(2, 4)) >= 70 ? '19' + date.slice(2, 4) : '20' + date.slice(2, 4);
-          dateString = day + month + year;
-          resultDate = setDate(dateString);
-          break;
 
-        // if the length of date is 5 or 7 then last two or four letters will be cosidered as year and first three letters will be checked against month and day eligibility. In case of confusion undefined will be returned.
-        case 5:
-        case 7:
-          dateString = '';
-          year = '';
-          if (length === 5) {
-            year = parseInt(date.slice(3, 5)) >= 70 ? '19' + date.slice(3, 5) : '20' + date.slice(3, 5);
-          } else if (length === 7) {
-            year = date.slice(3, 7);
-          }
-          day = '00';
-          month = '00';
-          a = parseInt(date.slice(0, 1));
-          b = parseInt(date.slice(1, 2));
-          c = parseInt(date.slice(2, 3));
-          nextTwo = parseInt(date.slice(1, 3));
-
-          if (a >= 4) {
-            day = '0' + date.slice(0, 1);
-            month = date.slice(1, 3);
-          } else if (c === 0) {
-            day = '0' + date.slice(0, 1);
-            month = date.slice(1, 3);
-          } else if (a <= 3 && a !== 0 && b === 1 && c <= 2) {
-            //conflict = true;
+    if (dateStr.length === format.length) {
+      //Scenario dateFormat:MMDDYYYY and dateStr:03012020
+      let reg = new RegExp(/(d+)|(m+)|(y+)/, 'g');
+      let strArr = dateStr.split('');
+      format.match(reg).forEach(k => {
+        let dateSeg = strArr.splice(0, k.length).join('');
+        dateMap[k[0]] = parseInt(dateSeg);
+      });
+    } else {
+      let day, month, year;
+      if (isUSFormat) {
+        //Date string will have month before date
+        switch (dateStr.length) {
+          case 4:
+            //date string is 'MDYY'
+            month = '0' + dateStr.slice(0, 1);
+            day = '0' + dateStr.slice(1, 2);
+            year = dateStr.slice(2, 4);
             break;
-          } else if (nextTwo > 12 || (a >= 0 && b >= 0 && c >= 1)) {
-            day = date.slice(0, 2);
-            month = '0' + date.slice(2, 3);
-          } else {
-            //conflict = true;
+          case 6:
+          case 8:
+            //date string is 'DMYYYY'
+            month = '0' + dateStr.slice(0, 2);
+            day = '0' + dateStr.slice(2, 4);
+            year = dateStr.slice(4);
             break;
-          }
+          case 5:
+          case 7:
+            if (dateStr.length == 5) {
+              //date string is 'MMDYY' or 'MDDYY'
+              year = dateStr.slice(3, 5);
+            } else {
+              //date string is 'MMDYYYY' or 'MDDYYYY'
+              year = dateStr.slice(3, 7);
+            }
+            let a = parseInt(dateStr.slice(0, 1));
+            let b = parseInt(dateStr.slice(1, 2));
+            let c = parseInt(dateStr.slice(2, 3));
+            if (a >= 2 || (c === 0 && a !== 0) || b > 2) {
+              //format is 'MDD'
+              month = '0' + dateStr.slice(0, 1);
+              day = dateStr.slice(1, 3);
+            } else if (a === 0) {
+              //format is 'MMD'
+              month = dateStr.slice(0, 2);
+              day = '0' + dateStr.slice(2, 3);
+            }
+            break;
 
-          dateString = day + month + year;
-          resultDate = setDate(dateString);
-          break;
-        // if the length of date is 6 then first two letters will be cosidered as day, next two for month and rest two for year.
-        case 6:
-          day = date.slice(0, 2);
-          month = date.slice(2, 4);
-          // if year is of length 2 then add a prefix of 19 if greater than 70 and add 20 if less than 70.
-          year = parseInt(date.slice(4, 6)) >= 70 ? '19' + date.slice(4, 6) : '20' + date.slice(4, 6);
-          dateString = day + month + year;
-          resultDate = setDate(dateString);
-          break;
+        }
+      } else {
+        //Date string will have date before month
+        switch (dateStr.length) {
+          case 4:
+            //date string is 'DMYY'
+            day = '0' + dateStr.slice(0, 1);
+            month = '0' + dateStr.slice(1, 2);
+            year = dateStr.slice(2, 4);
+            break;
+          case 6:
+          case 8:
+            //date string is 'DMYYYY'
+            day = '0' + dateStr.slice(0, 2);
+            month = '0' + dateStr.slice(2, 4);
+            year = dateStr.slice(4);
+            break;
+          case 5:
+          case 7:
+            if (dateStr.length == 5) {
+              //date string is 'DMMYY' or 'DDMYY'
+              year = dateStr.slice(3, 5);
+            } else {
+              //date string is 'DMMYYYY' or 'DDMYYYY'
+              year = dateStr.slice(3, 7);
+            }
+            let a = parseInt(dateStr.slice(0, 1));
+            let b = parseInt(dateStr.slice(1, 2));
+            let c = parseInt(dateStr.slice(2, 3));
+            let nextTwo = parseInt(dateStr.slice(1, 3));
 
-        // if the length of date is 8 then first two letters will be cosidered as day, next two for month and rest four for year.
-        case 8:
-          dateString = date.slice(0, 2) + date.slice(2, 4) + date.slice(4, 8);
-          resultDate = setDate(dateString);
-          break;
+            if (a >= 4) {
+              day = '0' + dateStr.slice(0, 1);
+              month = dateStr.slice(1, 3);
+            } else if (c === 0) {
+              day = '0' + dateStr.slice(0, 1);
+              month = dateStr.slice(1, 3);
+            } else if (a <= 3 && a !== 0 && b === 1 && c <= 2) {
+              //conflict = true;
+              break;
+            } else if (nextTwo > 12 || (a >= 0 && b >= 0 && c >= 1)) {
+              day = dateStr.slice(0, 2);
+              month = '0' + dateStr.slice(2, 3);
+            }
+            break;
 
-        default:
-          break;
+        }
       }
-    } else if (withSeperator && isNan) {
-      // split the date with proper delimiter.
-      dateArray = split(date, separator);
-
-      // set the date according to the given day,month and year.
-      resultDate = setDate(dateArray.join(''));
+      dateMap = {
+        y: parseInt(year),
+        d: parseInt(day),
+        m: parseInt(month)
+      }
     }
   }
+  dateMap.m -= 1;
+  if (dateMap.y < 70) {
+    dateMap.y += 2000;
+  } else if (dateMap.y <= 99) {
+    dateMap.y += 1900;
+  }
 
-  //return parsed date object with appropriate date value.
-  return resultDate;
-};
+
+  var result;
+  if (dateMap.m >= 0 && dateMap.m <= 11 && dateMap.d > 0 && dateMap.d <= 31) {
+
+    //UTC
+    var result = new Date(Date.UTC(dateMap.y, dateMap.m, dateMap.d));
+
+    //if date is more than number of dateMap.ds in dateMap.m, the dateMap.m is incremented.
+    if (result.getUTCMonth() !== dateMap.m || result.getUTCFullYear() !== dateMap.y) {
+      result = undefined;
+    }
+  }
+  return result;
+}
+
 
 OEUtils.DateUtils.format = function (date, format, locale) {
   if (!format) {
