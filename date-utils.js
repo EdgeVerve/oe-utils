@@ -23,26 +23,39 @@ OEUtils.DateUtils.parse = function (dateStr, dateFormat) {
   if (typeof dateStr === 'undefined' || dateStr.length < 4) {
     return;
   }
-  if (!dateFormat) {
-    dateFormat = "DD-MM-YYYY";
-  }
-  var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-
-  dateStr = dateStr.toLowerCase();
-  OEUtils.DateUtils.months.forEach(function (d) {
-    if (dateStr.indexOf(d) > -1) {
-      dateStr = dateStr.replace(d, months.indexOf(d) + 1);
-    }
-  });
-  let separator = "-";    //Fix separator to handle multiple separator in format
-  dateStr = dateStr.replace(/[^0-9]/g, separator);
-  dateFormat = dateFormat.replace(/[^DMY]/g, separator);
-  let hasSeparator = dateStr.indexOf(separator) !== -1;   //Check if format is like DDMMYYYY
   var dateMap = {
     d: -1,
     m: -1,
     y: -1
   };
+  var months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  let separator = "-";    //Fix separator to handle multiple separator in format
+
+  var isValidDateMonth = (date,month)=>{
+    let d = parseInt(date);
+    let m = parseInt(month);
+    return (0<d && d<32 && 0<m && m<13);
+  }
+
+  if (!dateFormat) {
+    dateFormat = "DD-MM-YYYY";
+  }
+  
+
+  dateStr = dateStr.toLowerCase();
+  OEUtils.DateUtils.months.forEach(function (d) {
+    if (dateStr.indexOf(d) > -1) {
+      dateStr = dateStr.replace(d, (d)=>{
+        let m = months.indexOf(d) + 1;
+        return m < 10 ? ("0"+m) : m;
+      });
+    }
+  });
+  
+  dateStr = dateStr.replace(/[^0-9]/g, separator);
+  dateFormat = dateFormat.replace(/[^DMY]/g, separator);
+  let hasSeparator = dateStr.indexOf(separator) !== -1;   //Check if format is like DDMMYYYY
+
   let format = dateFormat.toLowerCase();
   var isUSFormat = format.indexOf('dd') > format.indexOf('mm');
   if (hasSeparator) {
@@ -73,35 +86,33 @@ OEUtils.DateUtils.parse = function (dateStr, dateFormat) {
             year = dateStr.slice(2, 4);
             break;
           case 6:
+            //date string is 'MMDDYY'
           case 8:
-            //date string is 'DMYYYY'
-            month = '0' + dateStr.slice(0, 2);
-            day = '0' + dateStr.slice(2, 4);
+            //date string is 'MMDDYYYY'
+            month = dateStr.slice(0, 2);
+            day = dateStr.slice(2, 4);
             year = dateStr.slice(4);
             break;
           case 5:
           case 7:
-            if (dateStr.length == 5) {
-              //date string is 'MMDYY' or 'MDDYY'
-              year = dateStr.slice(3, 5);
-            } else {
-              //date string is 'MMDYYYY' or 'MDDYYYY'
-              year = dateStr.slice(3, 7);
-            }
-            let a = parseInt(dateStr.slice(0, 1));
-            let b = parseInt(dateStr.slice(1, 2));
-            let c = parseInt(dateStr.slice(2, 3));
-            if (a >= 2 || (c === 0 && a !== 0) || b > 2) {
-              //format is 'MDD'
-              month = '0' + dateStr.slice(0, 1);
-              day = dateStr.slice(1, 3);
-            } else if (a === 0) {
-              //format is 'MMD'
-              month = dateStr.slice(0, 2);
-              day = '0' + dateStr.slice(2, 3);
+            year = dateStr.slice(3);
+
+            let _mm = dateStr.slice(0, 2);
+            let _d = dateStr.slice(2, 3);
+            let _m = dateStr.slice(0, 1);
+            let _dd = dateStr.slice(1, 3);
+            let _isMMD = isValidDateMonth(_d,_mm);
+            let _isMDD = isValidDateMonth(_dd,_m);
+            if(_isMMD && _isMDD){
+              
+            }else if(_isMMD){
+              month = _mm;
+              day = _d;
+            }else if(_isMDD){
+              month = _m;
+              day = _dd;
             }
             break;
-
         }
       } else {
         //Date string will have date before month
@@ -113,41 +124,34 @@ OEUtils.DateUtils.parse = function (dateStr, dateFormat) {
             year = dateStr.slice(2, 4);
             break;
           case 6:
+            //date string is 'DDMMYY'
           case 8:
             //date string is 'DMYYYY'
-            day = '0' + dateStr.slice(0, 2);
-            month = '0' + dateStr.slice(2, 4);
+            day =  dateStr.slice(0, 2);
+            month = dateStr.slice(2, 4);
             year = dateStr.slice(4);
             break;
           case 5:
           case 7:
-            if (dateStr.length == 5) {
-              //date string is 'DMMYY' or 'DDMYY'
-              year = dateStr.slice(3, 5);
-            } else {
-              //date string is 'DMMYYYY' or 'DDMYYYY'
-              year = dateStr.slice(3, 7);
-            }
-            let a = parseInt(dateStr.slice(0, 1));
-            let b = parseInt(dateStr.slice(1, 2));
-            let c = parseInt(dateStr.slice(2, 3));
-            let nextTwo = parseInt(dateStr.slice(1, 3));
+            year = dateStr.slice(3);
+            let _dd = dateStr.slice(0, 2);
+            let _m = dateStr.slice(2, 3);
+            let _d = dateStr.slice(0, 1);
+            let _mm = dateStr.slice(1, 3);
 
-            if (a >= 4) {
-              day = '0' + dateStr.slice(0, 1);
-              month = dateStr.slice(1, 3);
-            } else if (c === 0) {
-              day = '0' + dateStr.slice(0, 1);
-              month = dateStr.slice(1, 3);
-            } else if (a <= 3 && a !== 0 && b === 1 && c <= 2) {
-              //conflict = true;
-              break;
-            } else if (nextTwo > 12 || (a >= 0 && b >= 0 && c >= 1)) {
-              day = dateStr.slice(0, 2);
-              month = '0' + dateStr.slice(2, 3);
+            let _isDMM = isValidDateMonth(_d,_mm);
+            let _isDDM = isValidDateMonth(_dd,_m);
+
+            if(_isDMM && _isDDM){
+
+            }else if(_isDMM){
+              month = _mm;
+              day = _d;
+            }else if(_isDDM){
+              month = _m;
+              day = _dd;
             }
             break;
-
         }
       }
       dateMap = {
