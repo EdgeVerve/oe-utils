@@ -1,7 +1,7 @@
 {
   "name": "oe-utils",
   "description": "Util Library for oe-ui elements",
-  "version": "2.1.0",
+  "version": "2.3.0",
   "dependencies": {
     "@polymer/polymer": "^3.1.0"
   },
